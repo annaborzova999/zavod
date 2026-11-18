@@ -1,0 +1,698 @@
+/* ============================================
+   БАЗОВЫЕ НАСТРОЙКИ (действуют на весь сайт)
+   ============================================ */
+
+/* Звездочка означает, что правило применяется ко ВСЕМ элементам */
+* { 
+    box-sizing: border-box; /* Чтобы рамки и отступы не увеличивали размер блоков */
+}
+
+body {
+    margin: 0; /* Убираем белые поля вокруг страницы */
+    background: #0f151e; /* Тёмный фон по краям экрана */
+    color: #e2e7ed; /* Светлый цвет текста */
+    font-family: 'Montserrat', Arial, sans-serif; /* Основной шрифт для текста */
+    line-height: 1.6; /* Расстояние между строками (для читаемости) */
+    overflow-x: hidden; /* Запрещаем сайту ездить влево-вправо */
+}
+
+/* Шрифт с засечками для всех заголовков */
+.glavnyy-zagolovok, .podzagolovok, .section-title, .zagolovok-sekcii, 
+.zagolovok-kartochki, .product-name, .scroll-title, .drop-title {
+    font-family: 'Prata', serif;
+    font-weight: 400;
+}
+
+p { margin: 0 0 15px 0; } /* Отступ снизу у параграфов */
+a { color: inherit; text-decoration: none; } /* Ссылки без подчеркивания */
+img { max-width: 100%; display: block; } /* Картинки не вылезают за экран */
+
+/* ============================================
+   ХОЛСТ ДЛЯ СИНИХ ЧАСТИЦ НА ФОНЕ
+   ============================================ */
+#particleCanvas {
+    position: fixed; /* Он приклеен к экрану и не двигается при прокрутке */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0; /* Лежит на самом заднем плане */
+    pointer-events: none; /* Мышка проходит сквозь него */
+}
+
+/* ============================================
+   ЦЕНТРАЛЬНАЯ ОБЕРТКА САЙТА
+   ============================================ */
+.site-wrapper {
+    max-width: 1400px; /* Максимальная ширина сайта */
+    margin: 0 auto; /* Центрируем по середине */
+    background: #1b2433; /* Темно-синий фон сайта */
+    min-height: 100vh; /* Минимальная высота — на весь экран */
+    position: relative;
+    z-index: 1; /* Лежит ПОВЕРХ частиц */
+    box-shadow: 0 0 50px rgba(0,0,0,0.8); /* Тень по бокам */
+}
+
+/* ============================================
+   ШАПКА С ЛОГОТИПОМ И МЕНЮ
+   ============================================ */
+.shapka {
+    min-height: 116px;
+    width: calc(100% - 128px); /* Ширина с отступами по 64px с боков */
+    margin: 0 auto;
+    display: flex; /* Лого и меню в одну линию */
+    align-items: center; /* По центру по вертикали */
+    justify-content: space-between; /* Лого влево, меню вправо */
+    position: relative;
+    z-index: 100; /* Чтобы меню было поверх контента */
+}
+
+.logo-ssylka img { height: 50px; display: block; } /* Высота логотипа */
+
+/* Меню навигации */
+.menu { 
+    display: flex; /* Ссылки в ряд */
+    gap: 30px; /* Расстояние между ними */
+    align-items: center;
+}
+
+.menu > a, .dropbtn {
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #8b95a4; /* Серая полоска под текстом */
+    padding-bottom: 4px;
+    transition: color 0.3s, border-color 0.3s;
+    cursor: pointer;
+    display: flex;
+    align-items: center; 
+    gap: 6px; 
+}
+
+.menu > a:hover, .dropdown:hover .dropbtn { 
+    color: #f17882; /* При наведении краснеет */
+    border-color: #f17882; 
+}
+
+/* Треугольная стрелочка вниз у кнопки "Производство" */
+.dropbtn::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #8b95a4;
+    transition: border-color 0.3s;
+    margin-top: 2px;
+}
+
+.dropdown:hover .dropbtn::after {
+    border-top-color: #f17882;
+}
+
+.dropdown { position: relative; display: inline-block; }
+
+/* ============================================
+   ВЫПАДАЮЩЕЕ МЕНЮ "ПРОИЗВОДСТВО"
+   ============================================ */
+.dropdown-content {
+    position: absolute;
+    top: 35px; /* Появляется чуть ниже кнопки */
+    left: 50%;
+    transform: translate(-50%, 10px); /* Центрируем + сдвиг для анимации */
+    background: rgba(27, 36, 51, 0.97); /* Тёмный полупрозрачный фон */
+    backdrop-filter: blur(15px); /* Эффект стекла */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    padding: 30px;
+    display: flex;
+    gap: 40px;
+    width: max-content;
+    z-index: 200;
+    
+    /* Изначально скрыто */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Меню открывается при наведении ИЛИ при клике (класс .show) */
+.dropdown:hover .dropdown-content,
+.dropdown-content.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.dropdown-col { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.drop-title {
+    font-size: 16px; 
+    color: #99a3b1; 
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    padding-bottom: 10px;
+}
+.dropdown-col a { font-size: 14px; color: #e2e7ed; transition: color 0.2s; }
+.dropdown-col a:hover { color: #f17882; }
+
+/* ============================================
+   ГЛАВНЫЙ ЭКРАН (заголовок)
+   ============================================ */
+.pervyy-ekran {
+    width: calc(100% - 128px);
+    margin: 0 auto;
+    text-align: center;
+    padding: 120px 0 90px; 
+    position: relative; 
+    overflow: hidden;   
+}
+
+/* Оптический прицел (круги) на фоне */
+.pervyy-ekran::before {
+    content: ''; 
+    position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%);
+    width: 600px; height: 600px; border-radius: 50%; 
+    border: 1px solid rgba(80, 160, 255, 0.12); 
+    background: 
+        radial-gradient(circle, #f17882 2px, transparent 3px), 
+        radial-gradient(circle, transparent 35px, rgba(80, 160, 255, 0.08) 36px, transparent 37px), 
+        repeating-radial-gradient(circle, transparent 0, transparent 100px, rgba(80, 160, 255, 0.04) 101px, rgba(80, 160, 255, 0.04) 102px);
+    z-index: -1; pointer-events: none;
+}
+
+/* Перекрестие прицела */
+.pervyy-ekran::after {
+    content: ''; 
+    position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: 
+        linear-gradient(90deg, transparent calc(50% - 1px), rgba(80, 160, 255, 0.12) calc(50% - 1px), rgba(80, 160, 255, 0.12) calc(50% + 1px), transparent calc(50% + 1px)), 
+        linear-gradient(0deg, transparent calc(50% - 1px), rgba(80, 160, 255, 0.12) calc(50% - 1px), rgba(80, 160, 255, 0.12) calc(50% + 1px), transparent calc(50% + 1px));
+    z-index: -1; pointer-events: none;
+}
+
+.glavnyy-zagolovok { font-size: 64px; margin-bottom: 15px; position: relative; z-index: 1; }
+.podzagolovok { font-size: 16px; color: #99a3b1; text-transform: uppercase; position: relative; z-index: 1; }
+
+.knopka {
+    display: inline-block; 
+    border: 1px solid #616b78; 
+    background: #303a49; 
+    border-radius: 40px;
+    padding: 14px 40px; 
+    margin-top: 40px; 
+    font-size: 16px; 
+    font-weight: 600;
+    text-transform: uppercase; 
+    transition: background 0.3s; 
+    position: relative; 
+    z-index: 1;
+}
+.knopka:hover { background: #414d5f; }
+
+/* ============================================
+   3 КАРТОЧКИ ПРЕИМУЩЕСТВ (под главным экраном)
+   ============================================ */
+.top-scroll-block {
+    width: calc(100% - 128px); 
+    max-width: 1000px; 
+    margin: 0 auto 50px;
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); /* 3 равные колонки */
+    gap: 25px;
+}
+
+.scroll-item {
+    background: rgba(255, 255, 255, 0.04); 
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px; 
+    padding: 30px 20px; 
+    text-align: center; 
+    transition: border-color 0.3s, transform 0.3s;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;
+}
+.scroll-item:hover { 
+    border-color: rgba(241, 120, 130, 0.5); 
+    transform: translateY(-5px); /* При наведении приподнимается */
+}
+.scroll-title { font-size: 20px; color: #ffffff; margin-bottom: 10px; }
+.scroll-text { font-size: 14px; color: #c8d1db; margin: 0; line-height: 1.5; }
+
+/* ============================================
+   СЛАЙДЕР (с фото)
+   ============================================ */
+.slider-block {
+    width: 100%; 
+    max-width: 100%; 
+    height: 700px; 
+    margin: 0 0 80px; 
+    position: relative; 
+    overflow: hidden; 
+    background: #151c28; 
+}
+
+.slide {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; 
+    transition: opacity 0.5s ease; 
+    z-index: 1; 
+    pointer-events: none;
+}
+.slide.active { opacity: 1; z-index: 2; pointer-events: auto; }
+.slide .foto-fon { position: absolute; inset: 0; z-index: 0; }
+.slide .foto-fon img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    filter: brightness(0.7); /* Затемняем фото для читаемости текста */
+}
+
+/* Стеклянная карточка внутри слайдера */
+.steklo-kartochka {
+    position: absolute; 
+    top: 50%; 
+    right: 10%; 
+    transform: translateY(-50%);
+    width: 450px; 
+    background: rgba(37, 47, 62, 0.6); 
+    backdrop-filter: blur(20px); /* Эффект стекла */
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    padding: 50px 40px; 
+    z-index: 2;
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+    text-align: center;
+}
+.steklo-kartochka .zagolovok-kartochki { 
+    font-size: 32px; 
+    line-height: 1.2; 
+    margin-bottom: 30px; 
+    color: #ffffff; 
+}
+
+/* Ссылки внутри слайдера */
+.slider-nav-link {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    padding: 15px 0;
+    font-size: 16px; 
+    font-weight: 500; 
+    color: #ffffff; 
+    transition: color 0.3s, border-color 0.3s; 
+    text-align: left;
+}
+.slider-nav-link:hover { color: #f17882; border-color: #f17882; }
+.slider-nav-link::after { 
+    content: '→'; 
+    font-size: 20px; 
+    color: #99a3b1; 
+    transition: transform 0.3s, color 0.3s; 
+}
+.slider-nav-link:hover::after { 
+    transform: translateX(5px); /* Стрелка сдвигается вправо */
+    color: #f17882; 
+}
+
+/* Кнопки-стрелки слайдера */
+.arrow {
+    position: absolute; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    z-index: 10;
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    background: #a0d0f8; 
+    color: #ffffff;
+    border: none; 
+    font-size: 24px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: background 0.3s;
+}
+.arrow:hover { background: #80b8e8; }
+.prev { left: 40px; }
+.next { right: 40px; }
+
+/* Точки внизу слайдера */
+.dots {
+    position: absolute; 
+    bottom: 30px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    background: #ffffff; 
+    padding: 10px 20px; 
+    border-radius: 30px; 
+    display: flex; 
+    gap: 10px;
+    z-index: 10; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.dot { 
+    width: 12px; 
+    height: 12px; 
+    border-radius: 50%; 
+    background: #cccccc; 
+    cursor: pointer; 
+    transition: background 0.3s; 
+}
+.dot.active { background: #00bcd4; } /* Активная точка — голубая */
+
+/* ============================================
+   КОНТАКТЫ
+   ============================================ */
+.kontakty { 
+    width: calc(100% - 128px); 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    border-top: 1px solid #414b5a; 
+    padding: 80px 0 100px; 
+    text-align: center; 
+}
+
+.zagolovok-sekcii { 
+    font-size: 38px; 
+    margin-bottom: 15px; 
+    color: #ffffff; 
+}
+
+.steklo-blok { 
+    display: flex; 
+    justify-content: space-around; 
+    max-width: 700px; 
+    margin: 40px auto 0; 
+    padding: 40px; 
+    background: rgba(255, 255, 255, 0.05); 
+    backdrop-filter: blur(15px); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    border-radius: 16px; 
+}
+
+.kontakt-kol { display: flex; flex-direction: column; gap: 8px; }
+.nadzagolovok { 
+    font-size: 12px; 
+    text-transform: uppercase; 
+    color: #99a3b1; 
+    margin-bottom: 8px; 
+    font-weight: 600; 
+}
+.ssylka { font-size: 18px; font-weight: 500; }
+.ssylka:hover { color: #f17882; }
+.ssylka-serebro { font-size: 14px; color: #99a3b1; }
+.ssylka-serebro:hover { color: #f17882; }
+
+/* ============================================
+   ОБЩАЯ ОБЕРТКА ДЛЯ ВНУТРЕННИХ СТРАНИЦ
+   (О нас, Вакансии, Производство и т.д.)
+   ============================================ */
+.about-wrapper { 
+    width: calc(100% - 128px); 
+    max-width: 1000px; 
+    margin: 20px auto 80px; 
+    background: #232e3d; 
+    border: 1px solid #2d3a4d; 
+    border-radius: 30px; 
+    padding: 40px; 
+}
+
+.section-title { 
+    font-size: 36px; 
+    text-align: center; 
+    margin-bottom: 35px; 
+    color: #ffffff; 
+}
+
+.glass-box { 
+    background: rgba(255, 255, 255, 0.06); 
+    border: 1px solid rgba(255, 255, 255, 0.12); 
+    border-radius: 20px; 
+    padding: 30px; 
+    backdrop-filter: blur(10px); 
+    margin-bottom: 40px; 
+}
+
+.center-text { text-align: center; color: #c8d1db; font-size: 16px; }
+
+/* ============================================
+   СТРАНИЦА ПРОИЗВОДСТВО (АККОРДЕОН)
+   ============================================ */
+.production-menu { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.production-item { 
+    background: rgba(255, 255, 255, 0.04); 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    border-radius: 16px; 
+    overflow: hidden; 
+    transition: 0.3s; 
+}
+.production-item:hover { 
+    background: rgba(255, 255, 255, 0.06); 
+    border-color: rgba(241, 120, 130, 0.4); 
+}
+
+.production-item summary { 
+    cursor: pointer; 
+    padding: 25px 30px; 
+    font-size: 20px; 
+    font-weight: 500; 
+    color: #ffffff; 
+    list-style: none; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.production-item summary::-webkit-details-marker { display: none; }
+.production-item summary::after { content: '+'; font-size: 24px; color: #99a3b1; transition: 0.3s; }
+.production-item[open] summary::after { content: '−'; color: #f17882; }
+
+.production-content { padding: 0 30px 30px 30px; color: #c8d1db; font-size: 15px; line-height: 1.8; }
+.production-content p { margin-bottom: 10px; padding-left: 20px; position: relative; }
+.production-content p::before { 
+    content: ''; 
+    position: absolute; 
+    left: 0; 
+    top: 10px; 
+    width: 6px; 
+    height: 6px; 
+    border-radius: 50%; 
+    background: #f17882; /* Красная точка перед текстом */
+}
+
+.btn-to-page { 
+    display: inline-block; 
+    margin-top: 15px; 
+    font-weight: 600; 
+    color: #f17882; 
+    border-bottom: 1px solid #f17882; 
+    padding-bottom: 2px; 
+}
+.btn-to-page:hover { color: #ffffff; border-color: #ffffff; }
+
+/* Кнопка "Назад к производству" */
+.btn-back { 
+    display: inline-block; 
+    border: 1px solid #616b78; 
+    background: #303a49; 
+    border-radius: 40px; 
+    padding: 10px 30px; 
+    margin-bottom: 30px; 
+    font-size: 14px; 
+    font-weight: 500; 
+    transition: background 0.3s, border-color 0.3s; 
+}
+.btn-back:hover { background: #414d5f; border-color: #f17882; color: #f17882; }
+
+/* ============================================
+   СТРАНИЦА "О НАС" / ВАКАНСИИ
+   ============================================ */
+.row { display: flex; gap: 40px; margin-bottom: 40px; align-items: center; }
+.col-text { flex: 1; font-size: 15px; color: #c8d1db; line-height: 1.8; text-align: justify; }
+.col-photo { flex: 1; position: relative; min-height: 420px; margin-bottom: 0; overflow: hidden; }
+
+.obj-left { width: 50%; position: absolute; top: 15px; left: 2%; transform: rotate(146deg); } /* Левый объектив */
+.obj-right { width: 45%; position: absolute; top: 80px; right: 9%; transform: rotate(186deg); } /* Правый объектив */
+
+.people-box { flex: 1.2; padding: 15px; display: flex; justify-content: center; align-items: center; }
+.people-box img { width: 100%; border-radius: 12px; display: block; }
+.red { color: #e32636; font-weight: bold; } /* Красные цифры в тексте */
+
+/* Вакансии (аккордеон) */
+.vacancy-list { display: flex; flex-direction: column; gap: 15px; }
+.vacancy-item { 
+    background: rgba(255, 255, 255, 0.04); 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    border-radius: 12px; 
+    overflow: hidden; 
+}
+.vacancy-title { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 20px 25px; 
+    font-size: 18px; 
+    font-weight: 500; 
+    color: #ffffff; 
+    cursor: pointer; 
+    list-style: none; 
+}
+.vacancy-title::-webkit-details-marker { display: none; }
+.plus { font-size: 24px; color: #99a3b1; transition: transform 0.3s; }
+details[open] .plus { transform: rotate(45deg); color: #f17882; }
+.vacancy-content { padding: 0 25px 25px 25px; color: #c8d1db; font-size: 15px; }
+
+/* ============================================
+   ПОДВАЛ
+   ============================================ */
+.podval { border-top: 1px solid #414b5a; padding: 60px 0 0; }
+.podval-obolochka { 
+    width: calc(100% - 128px); 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding-bottom: 60px; 
+    gap: 30px; 
+}
+.podval-levo { display: flex; flex-direction: column; gap: 15px; flex: 1; }
+.podval-logo { height: 60px; width: auto; }
+.podval-tekst { color: #99a3b1; font-size: 14px; }
+.podval-menu { display: flex; flex-direction: column; gap: 15px; text-align: center; flex: 1; }
+.podval-menu a { font-size: 16px; font-weight: 500; color: #e2e7ed; transition: color 0.3s; }
+.podval-menu a:hover { color: #f17882; }
+.podval-pravo { display: flex; flex-direction: column; gap: 12px; text-align: right; flex: 1; }
+.podval-ssylka { font-size: 18px; font-weight: 500; color: #e2e7ed; }
+.podval-ssylka:hover { color: #f17882; }
+.podval-niz { 
+    width: calc(100% - 128px); 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 24px 0; 
+    border-top: 1px solid #414b5a; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 15px; 
+    font-size: 14px; 
+    color: #99a3b1; 
+}
+.btn-up { 
+    font-weight: 600; 
+    color: #99a3b1; 
+    font-size: 16px; 
+    padding: 10px 20px; 
+    border: 1px solid #414b5a; 
+    border-radius: 20px; 
+    transition: 0.3s; 
+}
+.btn-up:hover { color: #f17882; border-color: #f17882; }
+
+/* ============================================
+   АДАПТИВ — ПЛАНШЕТЫ (до 1000px)
+   ============================================ */
+@media (max-width: 1000px) {
+    .shapka, .pervyy-ekran, .patenty, .kontakty, .podval-obolochka, .about-wrapper, .podval-niz { 
+        width: calc(100% - 64px); 
+    }
+    .row { gap: 20px; }
+    .steklo-kartochka { width: 400px; right: 5%; padding: 30px; }
+    .steklo-kartochka .zagolovok-kartochki { font-size: 26px; }
+    .slider-block { height: 600px; }
+    .prev { left: 20px; }
+    .next { right: 20px; }
+    .top-scroll-block { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .pervyy-ekran::before, .pervyy-ekran::after { width: 450px; height: 450px; }
+    
+    /* МОБИЛЬНОЕ МЕНЮ */
+    .dropdown { position: static; }
+    .dropdown-content {
+        position: fixed; 
+        top: 80px; left: 20px; right: 20px; 
+        width: auto; 
+        transform: none; 
+        flex-direction: column; 
+        padding: 25px 20px;
+        background: rgba(27, 36, 51, 0.98); 
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15); 
+        border-radius: 20px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+        display: flex; 
+        opacity: 0; 
+        visibility: hidden; 
+        transform: translateY(-15px);
+        transition: all 0.3s ease; 
+        max-height: calc(100vh - 120px); 
+        overflow-y: auto; 
+        z-index: 1000;
+    }
+    .dropdown-content.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .dropdown:hover .dropdown-content { opacity: 0; visibility: hidden; transform: translateY(-15px); }
+    .dropdown:hover .dropdown-content.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    
+    .dropdown-col { 
+        width: 100%; 
+        margin-bottom: 15px; 
+        padding-bottom: 15px; 
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+    }
+    .dropdown-col:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .drop-title { font-size: 13px; margin-bottom: 10px; padding-bottom: 8px; color: #99a3b1; }
+    .dropdown-col a { 
+        font-size: 15px; 
+        padding: 10px 0; 
+        display: block; 
+        border-radius: 8px; 
+        transition: background 0.2s, color 0.2s; 
+    }
+    .dropdown-col a:hover, .dropdown-col a:active { 
+        color: #f17882; 
+        background: rgba(255, 255, 255, 0.03); 
+        padding-left: 10px; 
+    }
+}
+
+/* ============================================
+   АДАПТИВ — ТЕЛЕФОНЫ (до 700px)
+   ============================================ */
+@media (max-width: 700px) {
+    .site-wrapper { box-shadow: none; }
+    .shapka, .pervyy-ekran, .patenty, .kontakty, .podval-obolochka, .about-wrapper, .podval-niz { 
+        width: calc(100% - 40px); 
+    }
+    .shapka { flex-direction: column; gap: 20px; padding: 20px 0; }
+    .menu { flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .steklo-blok { flex-direction: column; gap: 30px; padding: 30px; }
+    .row { flex-direction: column; gap: 20px; }
+    .row:nth-of-type(2) { flex-direction: column-reverse; }
+    .col-photo { min-height: 360px; width: 100%; }
+    .obj-left { width: 55%; transform: rotate(146deg); top: 20px; left: 0%; }
+    .obj-right { width: 50%; transform: rotate(186deg); top: 150px; right: 0%; }
+    .podval-obolochka { flex-direction: column; align-items: center; gap: 40px; padding-bottom: 40px; text-align: center; }
+    .podval-pravo { text-align: center; }
+    .podval-levo { align-items: center; }
+    .top-scroll-block { grid-template-columns: 1fr; gap: 15px; }
+    .scroll-item { padding: 20px; }
+    .slider-block { height: 500px; }
+    .steklo-kartochka { right: 5%; left: 5%; width: 90%; padding: 30px; }
+    .steklo-kartochka .zagolovok-kartochki { font-size: 24px; }
+    .arrow { width: 40px; height: 40px; font-size: 16px; }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .pervyy-ekran::before, .pervyy-ekran::after { width: 300px; height: 300px; }
+    .production-item summary { font-size: 16px; padding: 20px; }
+    .production-content { padding: 0 20px 20px 20px; }
+    .dropdown-content { top: 70px; left: 15px; right: 15px; padding: 20px 15px; }
+}

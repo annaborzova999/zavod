@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оптические приборы — Завод Юпитер</title>
+    <link rel="icon" href="./img/favikon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Prata&display=swap" rel="stylesheet">
+    <style>
+        /* === Стили для ровных картинок === */
+        .col-photo { display: flex; align-items: center; justify-content: center; width: 100%; overflow: hidden; border-radius: 12px; }
+        .product-img { width: 100%; height: 350px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto; filter: brightness(0.85); }
+        .img-distance { width: 95% !important; height: auto !important; max-height: 340px; object-fit: contain !important; padding: 5px; margin: 0 auto; }
+        .img-dark { filter: brightness(0.6); } /* Затемнение для бинокля */
+    </style>
+</head>
+<body id="top">
+    <canvas id="particleCanvas"></canvas>
+    <div class="site-wrapper">
+        
+        <!-- ШАПКА -->
+        <div class="shapka">
+            <a class="logo-ssylka" href="index.html"><img src="./img/logo1.png" alt="Логотип"></a>
+            <div class="menu">
+                <a href="index.html">Главная</a>
+                <a href="careers.html">Вакансии</a>
+                <a href="about.html">О нас</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn" id="dropbtn">Производство</a>
+                    <div class="dropdown-content" id="dropdownContent">
+                        <div class="dropdown-col">
+                            <p class="drop-title">Оптические приборы</p>
+                            <a href="optics.html">Монокуляры</a>
+                            <a href="optics.html">Бинокли</a>
+                            <a href="optics.html">Зрительные трубки</a>
+                        </div>
+                        <div class="dropdown-col">
+                            <p class="drop-title">Прицелы и дальномеры</p>
+                            <a href="sights.html">Коллиматорные прицелы</a>
+                            <a href="sights.html">Лазерные дальномеры</a>
+                            <a href="sights.html">Крепления</a>
+                        </div>
+                        <div class="dropdown-col">
+                            <p class="drop-title">Ночная оптика</p>
+                            <a href="nightvision.html">Приборы ночного видения</a>
+                            <a href="nightvision.html">Тепловизоры</a>
+                        </div>
+                        <div class="dropdown-col">
+                            <p class="drop-title">Все категории</p>
+                            <a href="products.html">Перейти в производство →</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="index.html#kontakty">Контакты</a>
+            </div>
+        </div>
+
+        <!-- КОНТЕНТ -->
+        <div class="about-wrapper">
+            <a href="products.html" class="btn-back">← Назад к производству</a>
+            <p class="section-title">Оптические приборы</p>
+
+            <div class="glass-box center-text" style="margin-bottom: 40px;">
+                <p>Классическая оптика для наблюдения за объектами на любых дистанциях. Высокое качество линз и надежность в любых условиях.</p>
+            </div>
+
+            <!-- Монокуляры (фото слева) -->
+            <div class="row">
+                <div class="glass-box col-photo" style="padding: 10px;">
+                    <img src="./img/monokylar.png" alt="Монокуляр" class="product-img img-distance">
+                </div>
+                <div class="col-text">
+                    <p class="title-small" style="font-size: 24px; margin-bottom: 15px; color: #fff;">Монокуляры</p>
+                    <p>Компактные и легкие приборы для наблюдения одним глазом. Идеально подходят для походов и путешествий, так как занимают минимум места. Обеспечивают яркую и контрастную картинку даже в сумерках.</p>
+                </div>
+            </div>
+
+            <!-- Бинокли (фото справа) -->
+            <div class="row">
+                <div class="col-text">
+                    <p class="title-small" style="font-size: 24px; margin-bottom: 15px; color: #fff;">Бинокли</p>
+                    <p>Классические приборы для объемного наблюдения двумя глазами. Мы производим полевые и морские модели с влагозащитным корпусом и просветленной оптикой. Позволяют долго рассматривать удаленные объекты без усталости глаз.</p>
+                </div>
+                <div class="glass-box col-photo" style="padding: 10px;">
+                    <img src="./img/binokli.png" alt="Бинокль" class="product-img img-distance img-dark">
+                </div>
+            </div>
+
+            <!-- Зрительные трубки (фото слева) -->
+            <div class="row">
+                <div class="glass-box col-photo" style="padding: 10px;">
+                    <img src="./img/trybki.png" alt="Зрительная трубка" class="product-img img-distance">
+                </div>
+                <div class="col-text">
+                    <p class="title-small" style="font-size: 24px; margin-bottom: 15px; color: #fff;">Зрительные трубки</p>
+                    <p>Мощные оптические приборы для детального изучения удаленных объектов (например, для наблюдения за природой или спортивных мероприятий). Оснащаются штативными креплениями для максимальной стабильности.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПОДВАЛ -->
+        <div class="podval">
+            <div class="podval-obolochka">
+                <div class="podval-levo"><img src="./img/logo1.png" alt="Завод Юпитер" class="podval-logo"><p class="podval-tekst">Оптика специального назначения</p></div>
+                <div class="podval-menu"><a href="index.html">Главная</a><a href="products.html">Производство</a><a href="careers.html">Вакансии</a><a href="about.html">О нас</a></div>
+                <div class="podval-pravo"><a class="podval-ssylka" href="mailto:mail@zavod-yupiter.ru">mail@zavod-yupiter.ru</a><a class="podval-ssylka" href="tel:+781666623651">8 (816) 66 2-36-51</a><a class="podval-ssylka" href="tel:+781666621391">8 (816) 66 2-13-91</a></div>
+            </div>
+            <div class="podval-niz"><p>© ЗАО «Завод Юпитер»</p><a href="#top" class="btn-up">Наверх ↑</a></div>
+        </div>
+    </div>
+
+    <script>
+        // Мобильное меню и частицы (те же что везде)
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropBtn = document.getElementById('dropbtn');
+            const dropContent = document.getElementById('dropdownContent');
+            dropBtn.addEventListener('click', function(e) { e.preventDefault(); dropContent.classList.toggle('show'); });
+            document.addEventListener('click', function(e) { if (!e.target.closest('.dropdown')) dropContent.classList.remove('show'); });
+        });
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [], mouse = { x: -1000, y: -1000 };
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        for (let i = 0; i < 300; i++) { particles.push({ x: Math.random() * width, y: Math.random() * height, vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8, radius: Math.random() * 2 + 0.5 }); }
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                let dx = p.x - mouse.x; let dy = p.y - mouse.y; let dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) { let force = (150 - dist) / 150; let angle = Math.atan2(dy, dx); p.vx += Math.cos(angle) * force * 3; p.vy += Math.sin(angle) * force * 3; }
+                p.vx *= 0.97; p.vy *= 0.97;
+                if (Math.abs(p.vx) < 0.1 && Math.abs(p.vy) < 0.1) { p.vx += (Math.random() - 0.5) * 0.5; p.vy += (Math.random() - 0.5) * 0.5; }
+                if (p.x < -10) p.x = width + 10; if (p.x > width + 10) p.x = -10; if (p.y < -10) p.y = height + 10; if (p.y > height + 10) p.y = -10;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(80, 160, 255, 0.7)'; ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
